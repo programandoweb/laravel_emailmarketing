@@ -1,2 +1,14 @@
+composer require laravel/sanctum
+php artisan vendor:publish –provider="Laravel\Sanctum\SanctumServiceProvider"
+
 php artisan make:model Emails -cmf
 php artisan make:model EmailsSend -cmf
+
+php artisan make:controller AuthController --resource
+php artisan make:controller UserController --resource
+
+php artisan make:seeder UserSeeder
+
+php artisan migrate --seed
+
+composer dump-autoload

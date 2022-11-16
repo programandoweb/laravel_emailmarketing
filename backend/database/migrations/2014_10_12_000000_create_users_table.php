@@ -14,14 +14,24 @@ class CreateUsersTable extends Migration
     public function up()
     {
         Schema::create('users', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->rememberToken();
-            $table->timestamps();
+          $table->increments('id');
+          $table->string('name')->nullable()->default(' ');
+          $table->string('surnames')->nullable()->default(' ');
+          $table->string('email')->unique();
+          $table->string('avatar')->nullable();
+          $table->string('celular')->nullable()->default(' ');
+          $table->timestamp('email_verified_at')->nullable();
+          $table->string('password');
+          $table->string('phone')->nullable()->default('3115000000');
+          $table->string('token')->unique();
+          $table->integer('status')->nullable()->default(1);
+          $table->rememberToken();
+          $table->timestamps();
         });
+
+        DB::unprepared('
+            CREATE TRIGGER Generador_token_usuarios BEFORE INSERT ON `users`
+              FOR EACH ROW SET NEW.token = CONCAT ("user_", MD5(RAND()))');
     }
 
     /**
